@@ -58,6 +58,11 @@ class FullCalendarWidget extends Widget implements HasForms, HasActions, HasCust
         return [];
     }
 
+    public function fetchResources(array $info): array
+    {
+        return [];
+    }
+
     public function getFormSchema(): array
     {
         return [];
