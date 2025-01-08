@@ -41,6 +41,7 @@ export default function fullcalendar({
                     'center': 'title',
                     'right': 'dayGridMonth,dayGridWeek,dayGridDay',
                 },
+                refetchResourcesOnNavigate: true,
                 plugins: plugins.map(plugin => availablePlugins[plugin]),
                 locale,
                 schedulerLicenseKey,
@@ -93,11 +94,16 @@ export default function fullcalendar({
                     if (!selectable) return;
                     this.$wire.onDateSelect(startStr, endStr, allDay, view, resource)
                 },
+                resources: (fetchInfo, successCallback, failureCallback) => {
+                    this.$wire.fetchResources(fetchInfo)
+                      .then(successCallback)
+                      .catch(failureCallback);
+                },
             })
 
             calendar.render()
 
-            window.addEventListener('filament-fullcalendar--refresh', () => calendar.refetchResources() || calendar.refetchEvents())
+            window.addEventListener('filament-fullcalendar--refresh', () => { calendar.refetchResources(); calendar.refetchEvents() })
             window.addEventListener('filament-fullcalendar--prev', () => calendar.prev())
             window.addEventListener('filament-fullcalendar--next', () => calendar.next())
             window.addEventListener('filament-fullcalendar--today', () => calendar.today())
